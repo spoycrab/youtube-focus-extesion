@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>YouTube Focus</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>YouTube Focus</h1>
+  </header>
+
+  <section class="status">
+    <div class="status-line">
+      <span id="status-dot" class="dot"></span>
+      <span id="status-label">Carregando…</span>
+    </div>
+    <div id="status-goal" class="status-goal"></div>
+    <div id="status-time" class="status-time"></div>
+    <button id="btn-end" type="button" hidden>Encerrar sessão</button>
+  </section>
+
+  <form id="settings">
+    <p id="locked-note" class="note locked" hidden></p>
+    <fieldset id="settings-fields">
+      <h2>Modo Foco</h2>
+      <label>
+        Encerrar após inatividade (min)
+        <input name="focusIdleMinutes" type="number" min="5" max="240" step="1" required>
+      </label>
+      <label>
+        Lembrete a cada (min, 0 = desligado)
+        <input name="reminderMinutes" type="number" min="0" max="120" step="1" required>
+      </label>
+      <label class="check">
+        <input name="askGoal" type="checkbox">
+        Perguntar o objetivo ao entrar
+      </label>
+      <div class="group-label">Esconder / bloquear</div>
+      <div id="focus-hide" class="checks"></div>
+
+      <h2>Modo Relax</h2>
+      <label>
+        Tempo do Relax (min)
+        <input name="relaxMinutes" type="number" min="1" max="600" step="1" required>
+      </label>
+      <label>
+        Tempo de bloqueio (min)
+        <input name="cooldownMinutes" type="number" min="1" max="1440" step="1" required>
+      </label>
+
+      <h2>Geral</h2>
+      <label>
+        URL ao sair
+        <input name="exitUrl" type="url" required>
+      </label>
+      <label>
+        Frase de emergência
+        <textarea name="emergencyPhrase" rows="3" required></textarea>
+      </label>
+
+      <button type="submit" class="primary">Salvar</button>
+      <p id="save-result" class="result" role="status"></p>
+    </fieldset>
+  </form>
+
+  <script src="../shared/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

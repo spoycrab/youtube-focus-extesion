@@ -1,0 +1,241 @@
+/* Estilos do overlay. Carregado dentro do Shadow DOM: não afeta o YouTube. */
+
+:host {
+  all: initial;
+  --bg: #0f0f0f;
+  --card: #1c1c1c;
+  --border: #303030;
+  --text: #f1f1f1;
+  --muted: #aaaaaa;
+  --accent: #ff3b30;
+  --accent-hover: #ff5a50;
+  --focus: #3ea6ff;
+  --relax: #2ecc71;
+  --error: #ff6b6b;
+  font-family: Roboto, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+}
+
+* { box-sizing: border-box; }
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+/* ---- Moldura com frase de efeito ---- */
+
+.screen.with-quote {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal: 900ms;
+  flex-direction: column;
+  justify-content: safe center;
+}
+
+.quote {
+  margin: 0;
+  max-width: 720px;
+  text-align: center;
+  animation: quote-in 2000ms var(--ease) both;
+}
+.quote blockquote {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.4;
+  color: var(--text);
+  transition: font-size var(--reveal) var(--ease);
+}
+.quote figcaption {
+  margin-top: 14px;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  transition: margin var(--reveal) var(--ease), font-size var(--reveal) var(--ease);
+}
+.revealed .quote blockquote { font-size: 22px; }
+.revealed .quote figcaption { margin-top: 8px; font-size: 13px; }
+
+/* O slot cresce de 0 até a altura do card; como a coluna é centralizada,
+   a frase é empurrada para cima suavemente enquanto ele cresce. */
+.card-slot {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    grid-template-rows var(--reveal) var(--ease),
+    opacity calc(var(--reveal) * 0.8) var(--ease) calc(var(--reveal) * 0.25),
+    transform var(--reveal) var(--ease);
+}
+.card-slot-inner { overflow: hidden; }
+.card-slot-inner > div { padding-top: 32px; }
+/* O slot corta o que passa da borda (necessário para a animação de altura): sem sombra aqui. */
+.with-quote .card { box-shadow: none; }
+.revealed .card-slot {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: none;
+}
+
+/* Troca de card dentro da mesma moldura (pergunta → escolha → objetivo). */
+.card-swap { animation: card-swap 400ms var(--ease) both; }
+
+@keyframes quote-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes card-swap {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 520px) {
+  .quote blockquote { font-size: 24px; }
+  .revealed .quote blockquote { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen.with-quote { --reveal: 1ms; }
+  .quote, .card-swap { animation-duration: 1ms; }
+}
+
+.card {
+  width: 100%;
+  max-width: 560px;
+  padding: 40px 36px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p { margin: 0 0 16px; line-height: 1.5; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.actions + .small { margin: 16px 0 0; }
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.btn {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn:hover:not(:disabled) { background: #2a2a2a; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.link { border: none; color: var(--muted); margin-top: 20px; font-size: 14px; }
+.btn.link:hover { background: none; color: var(--text); text-decoration: underline; }
+
+.modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+@media (max-width: 520px) {
+  .modes { grid-template-columns: 1fr; }
+}
+
+.mode {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  text-align: left;
+  background: #242424;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.mode:hover { background: #2b2b2b; border-color: var(--muted); }
+.mode strong { font-size: 17px; }
+.mode span { font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+.countdown {
+  font-size: 64px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 16px 0 4px;
+}
+
+.goal {
+  margin: 8px 0 16px;
+  padding: 14px 16px;
+  background: #121212;
+  border-left: 3px solid var(--focus);
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.hint { margin: 16px 0 0; }
+
+.phrase {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  background: #121212;
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+textarea,
+input[type="text"] {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  padding: 12px 14px;
+  background: #121212;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+}
+textarea:focus,
+input[type="text"]:focus { border-color: var(--focus); }
+textarea.error { border-color: var(--error); }
+
+.status { margin: 8px 0 0; font-size: 13px; color: var(--muted); text-align: left; }
+.status.error { color: var(--error); }

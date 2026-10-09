@@ -1,0 +1,13 @@
+{
+  "name": "youtube-focus-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Apenas ferramentas de desenvolvimento (tipos e checagem). A extensão em si não precisa de build.",
+  "scripts": {
+    "check": "tsc -p jsconfig.json"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.4",
+    "typescript": "^7.0.2"
+  }
+}

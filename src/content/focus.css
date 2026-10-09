@@ -1,0 +1,105 @@
+/*
+ * CSS injetado na página do YouTube.
+ *
+ * No Modo Foco, o content script coloca em <html> uma classe `yf-hide-<chave>` para cada
+ * item ligado em Configurações → Modo Foco (chaves de `FocusHide` em src/shared/storage.js).
+ * O YouTube muda o markup com frequência: se algo voltar a aparecer, inspecione o elemento
+ * e adicione o seletor no grupo correspondente abaixo.
+ */
+
+/* Página travada enquanto o overlay (pergunta / lembrete / bloqueio) está aberto. */
+html.yf-locked,
+html.yf-locked body {
+  overflow: hidden !important;
+}
+
+/* --- home: feed da página inicial --- */
+html.yf-hide-home ytd-browse[page-subtype="home"] #primary,
+html.yf-hide-home ytd-browse[page-subtype="home"] ytd-feed-filter-chip-bar-renderer {
+  display: none !important;
+}
+html.yf-hide-home ytd-browse[page-subtype="home"]::before {
+  content: "Modo Foco: use a busca para encontrar o que você veio procurar.";
+  display: block;
+  padding: 160px 24px;
+  text-align: center;
+  font-size: 18px;
+  color: var(--yt-spec-text-secondary, #aaa);
+}
+
+/* --- shorts --- */
+html.yf-hide-shorts ytd-reel-shelf-renderer,
+html.yf-hide-shorts ytd-rich-shelf-renderer[is-shorts],
+html.yf-hide-shorts ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+html.yf-hide-shorts grid-shelf-view-model,
+html.yf-hide-shorts ytm-shorts-lockup-view-model,
+html.yf-hide-shorts ytm-shorts-lockup-view-model-v2,
+html.yf-hide-shorts ytd-rich-item-renderer:has(a[href^="/shorts/"]),
+html.yf-hide-shorts ytd-video-renderer:has(a[href^="/shorts/"]),
+html.yf-hide-shorts ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+html.yf-hide-shorts ytd-guide-entry-renderer:has(a[title="Shorts"]),
+html.yf-hide-shorts ytd-guide-entry-renderer:has(a[href^="/shorts"]),
+html.yf-hide-shorts ytd-mini-guide-entry-renderer[aria-label="Shorts"],
+html.yf-hide-shorts ytd-mini-guide-entry-renderer:has(a[href^="/shorts"]),
+html.yf-hide-shorts yt-tab-shape[tab-title="Shorts"],
+html.yf-hide-shorts tp-yt-paper-tab:has([title="Shorts"]) {
+  display: none !important;
+}
+
+/* --- related: recomendações laterais e Mixes automáticos --- */
+html.yf-hide-related ytd-watch-flexy #related,
+html.yf-hide-related ytd-watch-next-secondary-results-renderer,
+html.yf-hide-related ytd-radio-renderer,
+html.yf-hide-related yt-lockup-view-model:has(a[href*="list=RD"]) {
+  display: none !important;
+}
+
+/* --- endscreen: sugestões no fim do vídeo e cards no player --- */
+html.yf-hide-endscreen .ytp-endscreen-content,
+html.yf-hide-endscreen .ytp-ce-element,
+html.yf-hide-endscreen .ytp-pause-overlay,
+html.yf-hide-endscreen .ytp-fullscreen-grid,
+html.yf-hide-endscreen .ytp-autonav-endscreen,
+html.yf-hide-endscreen .videowall-endscreen {
+  display: none !important;
+}
+
+/* --- comments --- */
+html.yf-hide-comments ytd-comments#comments,
+html.yf-hide-comments ytd-watch-flexy #comments {
+  display: none !important;
+}
+
+/* --- livechat --- */
+html.yf-hide-livechat ytd-live-chat-frame,
+html.yf-hide-livechat ytd-watch-flexy #chat-container,
+html.yf-hide-livechat ytd-watch-flexy #chat {
+  display: none !important;
+}
+
+/* --- explore: Em Alta / Explorar --- */
+html.yf-hide-explore ytd-guide-entry-renderer:has(a[href^="/feed/trending"]),
+html.yf-hide-explore ytd-guide-entry-renderer:has(a[href^="/feed/explore"]),
+html.yf-hide-explore ytd-guide-entry-renderer:has(a[href^="/gaming"]),
+html.yf-hide-explore ytd-mini-guide-entry-renderer:has(a[href^="/feed/trending"]),
+html.yf-hide-explore ytd-mini-guide-entry-renderer:has(a[href^="/feed/explore"]),
+html.yf-hide-explore ytd-guide-section-renderer:has(a[href^="/feed/trending"]),
+html.yf-hide-explore ytd-guide-section-renderer:has(a[href^="/feed/explore"]) {
+  display: none !important;
+}
+
+/* --- notifications --- */
+html.yf-hide-notifications ytd-notification-topbar-button-renderer,
+html.yf-hide-notifications ytd-guide-entry-renderer:has(a[href^="/feed/notifications"]) {
+  display: none !important;
+}
+
+/* --- searchClutter: prateleiras "Pessoas também assistiram", "Para você" etc. na busca --- */
+html.yf-hide-searchClutter ytd-search ytd-shelf-renderer,
+html.yf-hide-searchClutter ytd-search ytd-horizontal-card-list-renderer,
+html.yf-hide-searchClutter ytd-search ytd-vertical-list-renderer,
+html.yf-hide-searchClutter ytd-search ytd-movie-renderer,
+html.yf-hide-searchClutter ytd-search ytd-promoted-sparkles-web-renderer,
+html.yf-hide-searchClutter ytd-search ytd-ad-slot-renderer {
+  display: none !important;
+}
