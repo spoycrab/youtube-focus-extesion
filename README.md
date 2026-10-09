@@ -1,3 +1,7 @@
+
+
+
+
 # YouTube Focus
 
 
@@ -11,6 +15,11 @@ Toda vez que você abre o YouTube, a extensão mostra uma frase de efeito e perg
 -  **Modo Relax**: tudo liberado, mas com tempo limitado. Quando o tempo acaba, o YouTube fica **bloqueado** por um período.
 
 Tudo funciona localmente: nenhum dado sai do seu navegador.
+
+
+https://github.com/user-attachments/assets/b8824f29-f0f0-494d-a7a1-bcf84c734792
+
+
 
 ## Instalação
 
